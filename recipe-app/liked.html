@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Favorites</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .fade-in {
+      animation: fadeIn 0.4s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  
+    .fade-out {
+      animation: fadeOut 0.3s ease-in-out forwards;
+    }
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+        transform: scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+  <!-- Yläpalkki -->
+  <nav class="hidden md:flex justify-between items-center px-6 py-4 bg-white shadow sticky top-0 z-10">
+    <h1 class="text-xl font-bold">My Favorites</h1>
+    <div class="flex gap-6 text-gray-700 text-base">
+      <a href="index.html" class="hover:text-green-600 transition">Home</a>
+      <a href="liked.html" class="text-pink-500 font-semibold">Favorites</a>
+      <a href="profile.html" class="hover:text-purple-600 transition">Profile</a>
+    </div>
+  </nav>
+
+  <header class="md:hidden grid grid-cols-3 items-center px-4 py-3 bg-white shadow sticky top-0 z-10">
+    <div class="text-left">
+      <a href="index.html" class="text-xl text-gray-500">←</a>
+    </div>
+    <h1 class="text-xl font-semibold text-center">My Favorites</h1>
+    <div></div>
+  </header>
+
+  <!-- Sisältö -->
+  <main class="p-4 max-w-6xl mx-auto">
+    <div id="favoritesContainer" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+    <div class="h-24 md:hidden"></div>
+  </main>
+
+  <!-- Alapalkki mobiilille -->
+  <nav class="md:hidden fixed bottom-0 w-full bg-white border-t flex justify-around items-center h-16 text-2xl z-10">
+    <a href="index.html" class="text-gray-400">🏠</a>
+    <a href="liked.html" class="text-pink-500">🤍</a>
+    <a href="profile.html" class="text-gray-400">👤</a>
+  </nav>
+
+  <!-- Script -->
+  <script>
+    const container = document.getElementById("favoritesContainer");
+
+    const recipes = {
+      pasta: {
+        title: "Homemade Pasta with Fresh Herbs",
+        time: "30 min",
+        img: "assets/images/pasta.jpg",
+        link: "recipes/pasta.html"
+      },
+      buddha: {
+        title: "Vegetarian Buddha Bowl",
+        time: "20 min",
+        img: "assets/images/buddha.jpg",
+        link: "recipes/buddha.html"
+      },
+      salad: {
+        title: "Fresh Avocado Salad",
+        time: "15 min",
+        img: "assets/images/salad.jpg",
+        link: "recipes/salad.html"
+      },
+      soup: {
+        title: "Creamy Tomato Soup",
+        time: "25 min",
+        img: "assets/images/soup.jpg",
+        link: "recipes/soup.html"
+      },
+      pancakes: {
+        title: "Blueberry Pancakes",
+        time: "20 min",
+        img: "assets/images/pancakes.jpg",
+        link: "recipes/pancakes.html"
+      },
+      burger: {
+        title: "Plant-Based Burger",
+        time: "30 min",
+        img: "assets/images/burger.jpg",
+        link: "recipes/burger.html"
+      },
+      stirfry: {
+        title: "Vegetable Stir-fry",
+        time: "15 min",
+        img: "assets/images/stirfry.jpg",
+        link: "recipes/stirfry.html"
+      },
+      curry: {
+        title: "Chickpea Curry",
+        time: "40 min",
+        img: "assets/images/curry.jpg",
+        link: "recipes/curry.html"
+      }
+    };
+
+    function renderFavorites() {
+      const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+      container.innerHTML = "";
+
+      if (favorites.length === 0) {
+        container.innerHTML = `<p class="text-gray-500 text-center col-span-full">No favorites yet.</p>`;
+        return;
+      }
+
+      favorites.forEach(id => {
+        const r = recipes[id];
+        if (r) {
+          container.innerHTML += `
+            <div class="recipe-card bg-white rounded-xl overflow-hidden shadow-md fade-in" data-id="${id}">
+              <div class="relative">
+                <a href="${r.link}">
+                  <img src="${r.img}" alt="${r.title}" class="w-full h-28 object-cover">
+                </a>
+                <button class="remove-btn absolute top-2 right-2 bg-white rounded-full w-8 h-8 flex items-center justify-center shadow" data-id="${id}">
+                  <span class="text-pink-500 text-sm">♥</span>
+                </button>
+              </div>
+              <div class="p-2">
+                <h2 class="text-sm font-semibold leading-tight">${r.title}</h2>
+                <div class="text-xs text-gray-500 mt-1">⏱ ${r.time}</div>
+              </div>
+            </div>
+          `;
+        }
+      });
+    }
+
+    // Poisto toiminto animaatiolla
+    container.addEventListener("click", e => {
+      if (e.target.closest(".remove-btn")) {
+        const btn = e.target.closest(".remove-btn");
+        const id = btn.dataset.id;
+
+        let updatedFavorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+        updatedFavorites = updatedFavorites.filter(fav => fav !== id);
+        localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+
+        // Hae poistettava kortti ja lisää animaatio
+        const card = btn.closest(".recipe-card");
+        card.classList.add("fade-out");
+
+        // Odota animaatio loppuun ennen näkymän päivitystä
+        setTimeout(() => {
+          renderFavorites();
+        }, 300);
+      }
+    });
+
+    // Ensimmäinen renderöinti
+    renderFavorites();
+  </script>
+
+</body>
+</html>

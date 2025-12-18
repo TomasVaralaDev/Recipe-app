@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Profile</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col">
+
+  <!-- Header -->
+    <!-- Mobiilissa: keskitetty otsikko -->
+    <header class="md:hidden grid grid-cols-3 items-center px-4 py-3 bg-white shadow sticky top-0 z-10">
+        <div class="text-left">
+          <a href="index.html" class="text-xl text-gray-500">←</a>
+        </div>
+        <h1 class="text-xl font-semibold text-center">My Profile</h1>
+        <div></div>
+    </header>
+
+  <!-- Desktop Header -->
+  <nav class="hidden md:flex justify-between items-center px-6 py-4 bg-white shadow sticky top-0 z-10">
+    <h1 class="text-xl font-bold">My Profile</h1>
+    <div class="flex gap-6 text-gray-700 text-base">
+      <a href="index.html" class="hover:text-green-600 transition">Home</a>
+      <a href="liked.html" class="hover:text-pink-500 transition">Favorites</a>
+      <a href="profile.html" class="text-purple-600 font-semibold">Profile</a>
+    </div>
+  </nav>
+
+  <!-- Profile Section -->
+  <main class="flex-1 flex justify-center items-start px-4 pt-6">
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-6 animate-fadeIn relative">
+
+        <a href="settings.html" class="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 p-2 rounded-full shadow transition" aria-label="Settings">
+            ⚙️
+          </a>
+      <!-- Avatar + name -->
+      <div class="flex flex-col items-center text-center mb-6">
+        <img src="https://i.pravatar.cc/120?img=5" alt="Avatar" class="w-24 h-24 rounded-full shadow-md mb-3">
+        <h2 class="text-xl font-bold">Chef User</h2>
+        <p class="text-sm text-gray-500">Cooking enthusiast 🌱 | Recipe lover</p>
+      </div>
+
+      <!-- Buttons / Settings -->
+      <div class="space-y-3">
+        <a href="liked.html" class="flex items-center justify-between bg-gray-100 hover:bg-green-50 p-3 rounded-xl transition group">
+          <span class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 group-hover:scale-110 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+            </svg>
+            <span class="font-medium">My Cookbook</span>
+          </span>
+          <span class="text-sm text-gray-400">→</span>
+        </a>
+
+        <button class="w-full flex items-center justify-between bg-gray-100 hover:bg-blue-50 p-3 rounded-xl transition group">
+          <span class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 group-hover:scale-110 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m0 14v1m8-9h1M4 12H3m15.364-6.364l.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707.707M6.343 6.343l-.707-.707" />
+            </svg>
+            <span class="font-medium">Appearance</span>
+          </span>
+          <span class="text-sm text-gray-400">Soon</span>
+        </button>
+
+        <button class="w-full flex items-center justify-between bg-gray-100 hover:bg-purple-50 p-3 rounded-xl transition group">
+          <span class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-500 group-hover:scale-110 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16h6m2 0a2 2 0 100-4H7a2 2 0 100 4h10z" />
+            </svg>
+            <span class="font-medium">Send Feedback</span>
+          </span>
+          <span class="text-sm text-gray-400">Soon</span>
+        </button>
+      </div>
+
+      <!-- Logout -->
+      <div class="mt-6 text-center">
+        <a href="index.html" class="text-sm text-red-500 hover:underline">Log out</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Mobile nav -->
+  <nav class="md:hidden fixed bottom-0 w-full bg-white border-t flex justify-around items-center h-16 text-2xl z-10">
+    <a href="index.html" class="text-gray-400">🏠</a>
+    <a href="liked.html" class="text-gray-400">🤍</a>
+    <a href="profile.html" class="text-purple-600">👤</a>
+  </nav>
+
+  <!-- Fade-in animaatio -->
+  <style>
+    .animate-fadeIn {
+      animation: fadeIn 0.4s ease-in-out;
+    }
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+
+</body>
+</html>
